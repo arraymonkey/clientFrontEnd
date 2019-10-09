@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Vibes&display=swap');
+.logo img {
+  width: 2.5rem;
+  filter: grayscale(0.78) invert(0.60);
+}
+
+.invert img {
+  filter: invert(1);
+  width: 1.8rem;
+  display: inline-block;
+}
+
+.invert h4 {
+  display: inline-block;
+  color: whitesmoke;
+  margin-left: .5rem;
+  font-size: 1.2rem;
+  font-weight: bolder;
+  font-family: 'Vibes', cursive;
+}

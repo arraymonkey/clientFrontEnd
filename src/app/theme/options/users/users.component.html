@@ -1,0 +1,61 @@
+<div class="control-section">
+  <ejs-grid #grid [dataSource]='data| async' id="gridcomp" [allowPaging]='true' [allowExcelExport]='true'
+            [allowPdfExport]='true'
+            [allowSorting]='true' (actionBegin)="actionBegin($event)"
+            (actionComplete)="actionComplete($event)"
+            [toolbar]='toolbar' (dataStateChange)="dataStateChange($event)"
+            (dataSourceChanged)="dataSourceChanged($event)"
+            [contextMenuItems]="contextMenuItems" [editSettings]='editing'>
+    <e-columns>
+      <e-column field="Id" headerText='User ID' [allowEditing]="false"
+                textAlign='left'></e-column>
+      <e-column field='FirstName' headerText='First Name'></e-column>
+      <e-column field='LastName' headerText='Last Name'></e-column>
+      <e-column field='UserName' headerText='User Name'></e-column>
+      <e-column field='Email' headerText='Email'></e-column>
+      <e-column field='Password' headerText='Password' [hidden]="true">
+        <e-column field='roles' headerText='Permission'></e-column>
+        <ng-template #template let-data>
+          <p></p>
+        </ng-template>
+      </e-column>
+      <e-column field='Color' headerText='Color' [editTemplate]="editColor">
+        <ng-template #template let-data>
+          <div class="currentColor e-color">
+            <div class="color e-color" [style.background-color]="data.Color"></div>
+          </div>
+        </ng-template>
+      </e-column>
+      <e-column field='Active' headerText='Status' width='150' [editTemplate]="editActive">
+        <ng-template #template let-data>
+          <div *ngIf="data.Active === true ;else inactive" class="statustemp e-activecolor">
+            <span class="statustxt e-activecolor">Active</span>
+          </div>
+          <ng-template #inactive>
+            <div class="statustemp e-inactivecolor">
+              <span class="statustxt e-inactivecolor">Inactive</span>
+            </div>
+          </ng-template>
+        </ng-template>
+      </e-column>
+    </e-columns>
+    <div class="row">
+      <div class="col-6">
+        <ng-template #editColor>
+          <div class="row" style="margin-left: 25%">
+            <p style="margin-right: 1rem">Color</p>
+            <input ejs-colorpicker id='color-picker' [(value)]="rowObj.Color" type='color' mode="Palette"/>
+          </div>
+        </ng-template>
+      </div>
+      <div class="col-6">
+        <ng-template #editActive let-data>
+          <div class="row" style="margin-left: 25%">
+            <p style="margin-right: 1rem">Status</p>
+            <ejs-switch id="checked" (change)="changeEvent($event)" [checked]="data.Active"></ejs-switch>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </ejs-grid>
+</div>

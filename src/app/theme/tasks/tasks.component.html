@@ -1,0 +1,55 @@
+<div class="control-section">
+
+  <div style="display: inline-block">
+    <div class="row">
+
+
+      <div class="col">
+
+        <div class='e-mastertext'>Client Daily Service List</div>
+        <ejs-grid id='Grid' [dataSource]='data |async' id="gridcomp" [allowPaging]='true' [allowExcelExport]='true'
+                  [allowPdfExport]='true'
+                  [allowSorting]='true' (actionBegin)="actionBegin($event)"
+                  (actionComplete)="actionComplete($event)"
+                  [toolbar]='toolbar' (dataStateChange)="dataStateChange($event)"
+                  (dataSourceChanged)="dataSourceChanged($event)"
+                  [contextMenuItems]="contextMenuItems" [editSettings]='editing' width="100%">
+          <e-columns>
+            <e-column field='CheckInTime' headerText='Check In Time' width='220' textAlign="Left"></e-column>
+            <e-column field='Client' headerText='Client Name'></e-column>
+            <e-column field='Services' headerText='Services'></e-column>
+            <e-column field="Status" headerText="Status"></e-column>
+            <e-column field="Employee" headerText="Employee Name"></e-column>
+            <e-column field="WaitTime" headerText="Wait Time">
+
+              <ng-template #template let-data>
+
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+      <div class="col">
+        <div class='e-mastertext'>Employee Daily List</div>
+        <ejs-grid id='DestGrid' [dataSource]='data |async' id="destcomp" [allowPaging]='true' [allowExcelExport]='true'
+                  [allowPdfExport]='true'
+                  [allowSorting]='true' (actionBegin)="actionBegin($event)"
+                  (actionComplete)="actionComplete($event)"
+                  [toolbar]='toolbar' (dataStateChange)="dataStateChange($event)"
+                  (dataSourceChanged)="dataSourceChanged($event)"
+                  [contextMenuItems]="contextMenuItems" [editSettings]='editing'g
+                  width="100%">
+          <e-columns>
+            <e-column field='CheckInTime' headerText='Check In Time'></e-column>
+            <e-column field='EmployeeName' headerText='Employee Name'></e-column>
+            <e-column field="Status" headerText="Status"></e-column>
+            <e-column field="Client" headerText="Client Name"></e-column>
+            <e-column field="Count" headerText="Current Count"></e-column>
+          </e-columns>
+        </ejs-grid>
+
+      </div>
+    </div>
+
+  </div>
+</div>

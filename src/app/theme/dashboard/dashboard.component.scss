@@ -1,0 +1,24 @@
+//#control-container {
+//  padding: 0px !important;
+//}
+
+#spline-chartcontainer_Series_0_Point_2_Symbol {
+  -webkit-animation: opac 1s ease-out infinite;
+  animation: opac 1s ease-out infinite;
+}
+
+#spline-chartcontainer_Series_2_Point_0_Symbol {
+  -webkit-animation: opac 1s ease-out infinite;
+  animation: opac 1s ease-in-out infinite;
+}
+
+@keyframes opac {
+  0% {
+    stroke-opacity: 1;
+    stroke-width: 0px;
+  }
+  100% {
+    stroke-opacity: 0;
+    stroke-width: 10px;
+  }
+}

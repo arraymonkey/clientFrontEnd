@@ -1,0 +1,52 @@
+<div class="control-section">
+  <ejs-grid #Grid id='Grid' [dataSource]='data| async'
+            [allowExcelExport]='true'
+            [allowPdfExport]='true'
+            (actionBegin)="actionBegin($event)"
+            (actionComplete)="actionComplete($event)"
+            [toolbar]='toolbar' (dataStateChange)="dataStateChange($event)"
+            (dataSourceChanged)="dataSourceChanged($event)"
+            [editSettings]='editing'
+  >
+    <e-columns>
+      <e-column field='Id' headerText='Service ID' [allowEditing]="false" textAlign='Center'></e-column>
+      <e-column field='ServiceName' headerText='Service Name' textAlign='Left'></e-column>
+      <e-column field='Price' headerText='Price' editType="numericedit" format='C2' textAlign='Left'></e-column>
+      <e-column field='Duration' headerText='Duration' editType="numericedit" format="### min"
+                textAlign='Left'></e-column>
+      <e-column field='CategoryName' headerText='Category'
+                textAlign='Center'>
+        <ng-template #editTemplate let-data>
+          <div class="row" style="margin-left: 2rem">
+            <ejs-dropdownlist id='dropdownlist-template' [dataSource]='multiSelectData' [(value)]="rowObj.CategoryName"
+                              [fields]='fields'
+                              [itemTemplate]='itemTemplate'>
+              <ng-template #itemTemplate="" let-data="">
+                <!--set the value to itemTemplate property-->
+                <span class='Category' style="text-align: center">{{data.CategoryName}}</span>
+              </ng-template>
+            </ejs-dropdownlist>
+          </div>
+        </ng-template>
+      </e-column>
+      <e-column field='Active' headerText='Status' width='150' [editTemplate]="editActive">
+        <ng-template #template let-data>
+          <div *ngIf="data.Active === true ;else inactive" class="statustemp e-activecolor">
+            <span class="statustxt e-activecolor">Active</span>
+          </div>
+          <ng-template #inactive>
+            <div class="statustemp e-inactivecolor">
+              <span class="statustxt e-inactivecolor">Inactive</span>
+            </div>
+          </ng-template>
+        </ng-template>
+      </e-column>
+    </e-columns>
+    <ng-template #editActive let-data>
+      <div class="row" style="margin-left: 25%">
+        <p style="margin-right: 1rem">Status</p>
+        <ejs-switch id="checked" (change)="changeEvent($event)" [checked]="data.Active"></ejs-switch>
+      </div>
+    </ng-template>
+  </ejs-grid>
+</div>

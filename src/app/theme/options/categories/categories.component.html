@@ -1,0 +1,17 @@
+<div class="control-section">
+  <ejs-grid #Grid id='Grid' [dataSource]='parentData |async'
+            [allowExcelExport]='true'
+            [allowPdfExport]='true'
+            [allowSorting]='true'
+            (actionComplete)="actionComplete($event)"
+            [toolbar]='toolbar' (dataStateChange)="dataStateChange($event)"
+            (dataSourceChanged)="dataSourceChanged($event)"
+            [editSettings]='editing'
+  >
+    <e-columns>
+      <e-column field='Id' headerText='Category ID' [allowEditing]="false" textAlign='Center'></e-column>
+      <e-column field='CategoryName' headerText='Category Name' textAlign='Left'></e-column>
+    </e-columns>
+  </ejs-grid>
+</div>
+
