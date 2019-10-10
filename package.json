@@ -55,6 +55,7 @@
     "angular2-chartjs": "^0.5.0",
     "angular2-datatable": "^0.6.0",
     "angular2-lightbox": "^1.4.1",
+    "angular2-notifications": "^2.0.0",
     "angular2-text-mask": "^9.0.0",
     "bootstrap": "^4.3.1",
     "c3": "^0.7.11",
