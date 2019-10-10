@@ -66,13 +66,11 @@
                 <h6>Notifications Check-In</h6>
                 <label class="label label-danger">New</label>
               </li>
-              <li class="ripple">
+              <li class="ripple" *ngFor="let k of receivedMessage">
                 <div class="media">
-                  <img class="d-flex align-self-center img-radius" src="assets/images/avatar-2.jpg"
-                       alt="Generic placeholder image">
                   <div class="media-body">
-                    <h5 class="notification-user">John Doe</h5>
-                    <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer elit.</p>
+                    <h5 class="notification-user">{{receivedMessage[k]['Client'].Id}}</h5>
+                    <p class="notification-msg"></p>
                     <span class="notification-time">30 minutes ago</span>
                   </div>
                 </div>

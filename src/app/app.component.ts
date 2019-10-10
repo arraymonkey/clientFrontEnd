@@ -12,7 +12,7 @@ import {NotificationService} from './notification.service';
 })
 export class AppComponent implements OnInit {
 
-  public receivedMessages: string[] = [];
+  public receivedMessages: any[] = [];
   private topicSubscription: Subscription;
 
   constructor(private router: Router,
@@ -34,8 +34,10 @@ export class AppComponent implements OnInit {
       let jsondata = JSON.parse(message.body);
       let key = jsondata.Id;
       this.messageService.addMessage(key, jsondata);
-  console.log(jsondata);
+      console.log(this.receivedMessages);
     });
-
+    this.messageService._messages.subscribe((data: any[]) => {
+      this.receivedMessages = data;
+    });
   }
 }

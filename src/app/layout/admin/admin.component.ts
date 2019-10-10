@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {animate, AUTO_STYLE, state, style, transition, trigger} from '@angular/animations';
 import {MenuItems} from '../../shared/menu-items/menu-items';
+import {NotificationService} from '../../notification.service';
 
 @Component({
   selector: 'app-admin',
@@ -165,7 +166,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   };
 
   constructor(public menuItems: MenuItems,
-  public message: NotificationService
+              public message: NotificationService
   ) {
     this.animateSidebar = '';
     this.navType = 'st2';
@@ -244,9 +245,14 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   }
 
+  public receivedMessage: any[] = [];
 
   ngOnInit() {
     this.setBackgroundPattern('theme1');
+    this.message._messages.subscribe((data: any[]) => {
+      this.receivedMessage = data;
+      console.log(this.receivedMessage);
+    });
   }
 
   onResize(event) {
@@ -571,7 +577,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   fireClickLeave(e) {
     if (this.verticalNavType === 'collapsed') {
-      const parentEle = <HTMLElement> e.target.parentNode.parentNode;
+      const parentEle = <HTMLElement>e.target.parentNode.parentNode;
       const subEle = parentEle.querySelectorAll('.pcoded-hasmenu');
       for (let i = 0; i < subEle.length; i++) {
         if (subEle[i].classList.contains('pcoded-trigger')) {
