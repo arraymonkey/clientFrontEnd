@@ -1,27 +1,40 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
+import {AbstractRestService} from './shared/AbstractRestService';
+import {HttpClient} from '@angular/common/http';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationService {
+export class NotificationService extends AbstractRestService<WaitList> {
   _messages = new BehaviorSubject<Message>([]);
-  messageArr: any[] = [];
+  messageArr = this._messages.asObservable();
 
-  constructor() {
+  constructor(http: HttpClient) {
+    super(http, 'checkin');
   }
 
   execute() {
-    this._messages.subscribe((data: any[]) => {
-      this.messageArr = data;
-    });
+    return this.messageArr.pipe(map(data => data));
   }
 
-  addMessage(key, value) {
-    this.messageArr[key] = value;
-    this._messages.next(this.messageArr);
+  callserver() {
+    this.getAllData().subscribe(data => {
+      this._messages.next(data);
+    });
+
   }
 }
+
+export interface WaitList {
+  Id: string;
+  CheckInTime: Date;
+  Client: any[];
+  SalonServices: any[];
+  Employee: any[];
+}
+
 
 export interface Message {
   [key: string]: any
