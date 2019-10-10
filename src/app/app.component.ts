@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
+import {RxStompService} from '@stomp/ng2-stompjs';
+import {Message} from '@stomp/stompjs';
+import {Subscription} from 'rxjs';
+import {NotificationService} from './notification.service';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +11,15 @@ import {NavigationEnd, Router} from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'Mega Able 5+';
 
-  constructor(private router: Router) { }
+  public receivedMessages: string[] = [];
+  private topicSubscription: Subscription;
+
+  constructor(private router: Router,
+              private messageService: NotificationService,
+              private rxStompService: RxStompService
+  ) {
+  }
 
   ngOnInit() {
     this.router.events.subscribe((evt) => {
@@ -17,6 +27,13 @@ export class AppComponent implements OnInit {
         return;
       }
       window.scrollTo(0, 0);
+    });
+
+
+    this.topicSubscription = this.rxStompService.watch('/topic/checkin').subscribe((message: Message) => {
+      let jsondata = JSON.parse(message.body);
+      let key = jsondata.Id;
+      this.messageService.addMessage(key, jsondata);
     });
   }
 }
