@@ -34,6 +34,8 @@ export class AppComponent implements OnInit {
       let jsondata = JSON.parse(message.body);
       let key = jsondata.Id;
       this.messageService.addMessage(key, jsondata);
+  console.log(jsondata);
     });
+
   }
 }

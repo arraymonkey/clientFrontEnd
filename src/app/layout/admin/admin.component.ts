@@ -164,7 +164,9 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(public menuItems: MenuItems) {
+  constructor(public menuItems: MenuItems,
+  public message: NotificationService
+  ) {
     this.animateSidebar = '';
     this.navType = 'st2';
     this.themeLayout = 'vertical';
@@ -241,6 +243,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     /*this.setLayoutType('img');*/
 
   }
+
 
   ngOnInit() {
     this.setBackgroundPattern('theme1');
