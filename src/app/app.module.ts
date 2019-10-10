@@ -12,9 +12,52 @@ import {SharedModule} from './shared/shared.module';
 import {MenuItems} from './shared/menu-items/menu-items';
 import {BreadcrumbsComponent} from './layout/admin/breadcrumbs/breadcrumbs.component';
 import { rxStompConfig } from './rxStompConfig';
-import {NotificationsService} from "angular2-notifications";
+import {NotifierService, NotifierModule, NotifierOptions} from "angular-notifier";
 
 
+/**
+ * Custom angular notifier options
+ */
+const customNotifierOptions: NotifierOptions = {
+  position: {
+    horizontal: {
+      position: 'right',
+      distance: 12
+    },
+    vertical: {
+      position: 'bottom',
+      distance: 12,
+      gap: 10
+    }
+  },
+  theme: 'material',
+  behaviour: {
+    autoHide: false,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
+};
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,12 +66,12 @@ import {NotificationsService} from "angular2-notifications";
     BreadcrumbsComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,NotifierModule.withConfig(customNotifierOptions),
     BrowserAnimationsModule,
     AppRoutingModule,
     SharedModule
   ],
-  providers: [MenuItems, NotificationsService,{
+  providers: [MenuItems,{
                 provide: InjectableRxStompConfig,
                 useValue: rxStompConfig
                   },

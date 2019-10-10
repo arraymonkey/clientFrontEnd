@@ -18,6 +18,10 @@ export abstract class AbstractRestService<T> extends Subject<DataStateChangeEven
     this.getAllData().subscribe(x => super.next(x as DataStateChangeEventArgs));
   }
 
+  public executeFromTo(state: any): void {
+    this.getDataFromToSync().subscribe(x => super.next(x as DataStateChangeEventArgs));
+  }
+
   getAllData(): Observable<any[]> {
     return this.http.get<T[]>(this.actionUrl)
       .pipe(
@@ -53,7 +57,21 @@ export abstract class AbstractRestService<T> extends Subject<DataStateChangeEven
   getDataFromTo(start?: Date, end?: Date) {
     let s = new Date(new Date().setHours(0, 0, 0, 0));
     let e = new Date(new Date().setHours(24, 0, 0, 0));
-    return this.http.get(`${this.actionUrl}/${start ? start : s}/${end ? end : e}`, httpOptions);
+    return this.http.get(`${this.actionUrl}/all/${s}/${e}`, httpOptions);
   }
 
+  getDataById(data) {
+    return this.http.get(`${this.actionUrl}/${data.Id}`)
+  }
+
+  getDataFromToSync(start?: Date, end?: Date) {
+    let s = new Date(new Date().setHours(0, 0, 0, 0));
+    let e = new Date(new Date().setHours(24, 0, 0, 0));
+    return this.http.get(`${this.actionUrl}/all/${s}/${e}`, httpOptions).pipe(
+      map((response: any) => (<any>{
+        result: response,
+        count: response.length
+      })))
+      .pipe((data: any) => data);
+  }
 }

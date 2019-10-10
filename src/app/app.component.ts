@@ -3,7 +3,8 @@ import {NavigationEnd, Router} from '@angular/router';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {Message} from '@stomp/stompjs';
 import {Subscription} from 'rxjs';
-import {SignInService} from './sign-in.service';
+import {SignInService, WaitList} from './sign-in.service';
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'app-root',
@@ -16,13 +17,15 @@ export class AppComponent implements OnInit {
   public receivedMessages: any[] = [];
   private topicSubscription: Subscription;
 
-  constructor(private router: Router,
-              private signInService: SignInService,
-              private rxStompService: RxStompService
+  public constructor(private router: Router,
+                     private signInService: SignInService,
+                     private rxStompService: RxStompService,
+                     private notifier: NotifierService
   ) {
   }
 
   ngOnInit() {
+    this.signInService.callServer();
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
@@ -30,18 +33,24 @@ export class AppComponent implements OnInit {
       window.scrollTo(0, 0);
     });
 
-
     this.topicSubscription = this.rxStompService.watch('/topic/checkin').subscribe((message: Message) => {
-      let jsondata = JSON.parse(message.body);
+      let jsondata: WaitList = JSON.parse(message.body);
+      let newWaitList: any = [];
       let key = jsondata.Id;
-      this.signInService.callServer();
-      console.log(this.signInService.execute());
+      let clientName = jsondata.Client['ClientName']
+      this.signInService.getDataById(jsondata).subscribe((data: WaitList) => {
+        this.showNotification('info', `${data.Client['ClientName']} just signed in`, data.Id)
+      });
 
     });
-    this.signInService._messages.subscribe((data: any[]) => {
-      this.receivedMessages = data;
-    });
+
+
   }
+
+  public showNotification(type: string, message: string, id?:string): void {
+    this.notifier.notify(type, message);
+  }
+
 
   //
   // options: any = {
