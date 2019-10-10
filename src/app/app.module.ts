@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
+import { InjectableRxStompConfig, RxStompService, rxStompServiceFactory } from '@stomp/ng2-stompjs';
 
 import { AppComponent } from './app.component';
 import { AdminComponent } from './layout/admin/admin.component';
@@ -10,6 +11,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from './shared/shared.module';
 import {MenuItems} from './shared/menu-items/menu-items';
 import {BreadcrumbsComponent} from './layout/admin/breadcrumbs/breadcrumbs.component';
+import { rxStompConfig } from './rxStompConfig';
 
 
 @NgModule({
@@ -25,7 +27,17 @@ import {BreadcrumbsComponent} from './layout/admin/breadcrumbs/breadcrumbs.compo
     AppRoutingModule,
     SharedModule
   ],
-  providers: [MenuItems],
+  providers: [MenuItems, {
+                provide: InjectableRxStompConfig,
+                useValue: rxStompConfig
+                  },
+        {
+        provide: RxStompService,
+          useFactory: rxStompServiceFactory,
+          deps: [InjectableRxStompConfig]
+}
+
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
