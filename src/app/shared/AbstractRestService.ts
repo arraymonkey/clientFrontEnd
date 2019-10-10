@@ -1,23 +1,27 @@
 import {Observable, Subject} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {DataSourceChangedEventArgs, DataStateChangeEventArgs} from '@syncfusion/ej2-grids';
+import {Data, DataSourceChangedEventArgs, DataStateChangeEventArgs} from '@syncfusion/ej2-grids';
 import {map} from 'rxjs/operators';
+
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
+
 export abstract class AbstractRestService<T> extends Subject<DataStateChangeEventArgs> {
 
 
   constructor(protected http: HttpClient, protected actionUrl: string) {
     super();
   }
+
   public execute(state: any): void {
     this.getAllData().subscribe(x => super.next(x as DataStateChangeEventArgs));
   }
+
   getAllData(): Observable<any[]> {
     return this.http.get<T[]>(this.actionUrl)
       .pipe(
-        map((response: any) => (<any> {
+        map((response: any) => (<any>{
           result: response,
           count: response.length
         })))
@@ -27,9 +31,10 @@ export abstract class AbstractRestService<T> extends Subject<DataStateChangeEven
   getAll(): Observable<any[]> {
     return this.http.get<T[]>(this.actionUrl);
   }
+
   /** POST: add a new record  to the server */
   addRecord(state: DataSourceChangedEventArgs): Observable<T> {
-    return this.http.post<T>(this.actionUrl  + '/add', state.data, httpOptions);
+    return this.http.post<T>(this.actionUrl + '/add', state.data, httpOptions);
   }
 
   /** DELETE: delete the record from the server */
@@ -43,6 +48,12 @@ export abstract class AbstractRestService<T> extends Subject<DataStateChangeEven
   /** PUT: update the record on the server */
   updateRecord(state: DataSourceChangedEventArgs): Observable<any> {
     return this.http.put(this.actionUrl, state.data, httpOptions);
+  }
+
+  getDataFromTo(start?: Date, end?: Date) {
+    let s = new Date(new Date().setHours(0, 0, 0, 0));
+    let e = new Date(new Date().setHours(24, 0, 0, 0));
+    return this.http.get(`${this.actionUrl}/${start ? start : s}/${end ? end : e}`, httpOptions);
   }
 
 }

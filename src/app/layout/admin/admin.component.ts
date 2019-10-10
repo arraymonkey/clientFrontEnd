@@ -1,85 +1,90 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {animate, AUTO_STYLE, state, style, transition, trigger} from '@angular/animations';
 import {MenuItems} from '../../shared/menu-items/menu-items';
-import {NotificationService} from '../../notification.service';
+
+export const notificationBottom = trigger('notificationBottom', [
+  state('an-off, void',
+    style({
+      overflow: 'hidden',
+      height: '0px',
+    })
+  ),
+  state('an-animate',
+    style({
+      overflow: 'visible',
+      height: AUTO_STYLE,
+    })
+  ),
+  transition('an-off <=> an-animate', [
+    animate('400ms ease-in-out')
+  ])
+]);
+export const slideInOut =
+  trigger('slideInOut', [
+    state('in', style({
+      width: '280px',
+      // transform: 'translate3d(0, 0, 0)'
+    })),
+    state('out', style({
+      width: '0',
+      // transform: 'translate3d(100%, 0, 0)'
+    })),
+    transition('in => out', animate('400ms ease-in-out')),
+    transition('out => in', animate('400ms ease-in-out'))
+  ]);
+
+export const mobileHeaderNavRight =
+  trigger('mobileHeaderNavRight', [
+    state('nav-off, void',
+      style({
+        overflow: 'hidden',
+        height: '0px',
+      })
+    ),
+    state('nav-on',
+      style({
+        height: AUTO_STYLE,
+      })
+    ),
+    transition('nav-off <=> nav-on', [
+      animate('400ms ease-in-out')
+    ])
+  ]);
+export const fadeInOutTranslate =
+  trigger('fadeInOutTranslate', [
+    transition(':enter', [
+      style({opacity: 0}),
+      animate('400ms ease-in-out', style({opacity: 1}))
+    ]),
+    transition(':leave', [
+      style({transform: 'translate(0)'}),
+      animate('400ms ease-in-out', style({opacity: 0}))
+    ])
+  ]);
+export const mobileMenuTop =
+  trigger('mobileMenuTop', [
+    state('no-block, void',
+      style({
+        overflow: 'hidden',
+        height: '0px',
+      })
+    ),
+    state('yes-block',
+      style({
+        height: AUTO_STYLE,
+      })
+    ),
+    transition('no-block <=> yes-block', [
+      animate('400ms ease-in-out')
+    ])
+  ]);
+
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
-  animations: [
-    trigger('notificationBottom', [
-      state('an-off, void',
-        style({
-          overflow: 'hidden',
-          height: '0px',
-        })
-      ),
-      state('an-animate',
-        style({
-          overflow: 'visible',
-          height: AUTO_STYLE,
-        })
-      ),
-      transition('an-off <=> an-animate', [
-        animate('400ms ease-in-out')
-      ])
-    ]),
-    trigger('slideInOut', [
-      state('in', style({
-        width: '280px',
-        // transform: 'translate3d(0, 0, 0)'
-      })),
-      state('out', style({
-        width: '0',
-        // transform: 'translate3d(100%, 0, 0)'
-      })),
-      transition('in => out', animate('400ms ease-in-out')),
-      transition('out => in', animate('400ms ease-in-out'))
-    ]),
-    trigger('mobileHeaderNavRight', [
-      state('nav-off, void',
-        style({
-          overflow: 'hidden',
-          height: '0px',
-        })
-      ),
-      state('nav-on',
-        style({
-          height: AUTO_STYLE,
-        })
-      ),
-      transition('nav-off <=> nav-on', [
-        animate('400ms ease-in-out')
-      ])
-    ]),
-    trigger('fadeInOutTranslate', [
-      transition(':enter', [
-        style({opacity: 0}),
-        animate('400ms ease-in-out', style({opacity: 1}))
-      ]),
-      transition(':leave', [
-        style({transform: 'translate(0)'}),
-        animate('400ms ease-in-out', style({opacity: 0}))
-      ])
-    ]),
-    trigger('mobileMenuTop', [
-      state('no-block, void',
-        style({
-          overflow: 'hidden',
-          height: '0px',
-        })
-      ),
-      state('yes-block',
-        style({
-          height: AUTO_STYLE,
-        })
-      ),
-      transition('no-block <=> yes-block', [
-        animate('400ms ease-in-out')
-      ])
-    ])
-  ]
+  animations: [mobileMenuTop, fadeInOutTranslate, mobileHeaderNavRight, slideInOut, notificationBottom]
 })
 export class AdminComponent implements OnInit, OnDestroy {
   public animateSidebar: string;
@@ -166,7 +171,6 @@ export class AdminComponent implements OnInit, OnDestroy {
   };
 
   constructor(public menuItems: MenuItems,
-              public message: NotificationService
   ) {
     this.animateSidebar = '';
     this.navType = 'st2';
@@ -245,14 +249,10 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   }
 
-  public receivedMessage: any[] = [];
 
   ngOnInit() {
-    this.setBackgroundPattern('theme1');
-    this.message._messages.subscribe((data: any[]) => {
-      this.receivedMessage = data;
-      console.log(this.receivedMessage);
-    });
+    this.setBackgroundPattern('theme2');
+
   }
 
   onResize(event) {
@@ -586,5 +586,4 @@ export class AdminComponent implements OnInit, OnDestroy {
       }
     }
   }
-
 }

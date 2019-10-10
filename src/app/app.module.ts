@@ -12,6 +12,7 @@ import {SharedModule} from './shared/shared.module';
 import {MenuItems} from './shared/menu-items/menu-items';
 import {BreadcrumbsComponent} from './layout/admin/breadcrumbs/breadcrumbs.component';
 import { rxStompConfig } from './rxStompConfig';
+import {NotificationsService} from "angular2-notifications";
 
 
 @NgModule({
@@ -27,7 +28,7 @@ import { rxStompConfig } from './rxStompConfig';
     AppRoutingModule,
     SharedModule
   ],
-  providers: [MenuItems, {
+  providers: [MenuItems, NotificationsService,{
                 provide: InjectableRxStompConfig,
                 useValue: rxStompConfig
                   },

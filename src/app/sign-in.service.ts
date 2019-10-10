@@ -3,27 +3,30 @@ import {BehaviorSubject} from 'rxjs';
 import {AbstractRestService} from './shared/AbstractRestService';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationService extends AbstractRestService<WaitList> {
-  _messages = new BehaviorSubject<Message>([]);
+export class SignInService extends AbstractRestService<WaitList> {
+  _messages = new BehaviorSubject([]);
   messageArr = this._messages.asObservable();
 
   constructor(http: HttpClient) {
-    super(http, 'checkin');
+    super(http, environment.serverUrl + 'checkin');
   }
 
   execute() {
-    return this.messageArr.pipe(map(data => data));
+    return this.messageArr.pipe(map(data => data)).subscribe(data => {
+      console.log(data)
+      return data;
+    });
   }
 
-  callserver() {
-    this.getAllData().subscribe(data => {
-      this._messages.next(data);
+  callServer() {
+    this.getDataFromTo().subscribe(data => {
+      console.log(data)
     });
-
   }
 }
 
