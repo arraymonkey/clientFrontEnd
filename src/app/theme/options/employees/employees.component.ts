@@ -9,8 +9,11 @@ import {
   ResizeService, SaveEventArgs, SortService
 } from '@syncfusion/ej2-angular-grids';
 import {Observable} from 'rxjs';
-import { EmployeesService} from './employees.service';
+import {EmployeesService} from './employees.service';
 import {ChangeEventArgs} from '@syncfusion/ej2-buttons';
+import {DataManager, Query, UrlAdaptor} from "@syncfusion/ej2-data";
+import {environment} from "../../../../environments/environment";
+import {Category} from "../categories/categories.service";
 
 @Component({
   selector: 'app-employees',
@@ -29,6 +32,14 @@ export class EmployeesComponent implements OnInit {
   @ViewChild('grid', {static: true})
   public grid: GridComponent;
   rowObj: any;
+  public multiSelectData: DataManager = new DataManager({
+    url: environment.serverUrl + 'categories',
+    adaptor: new UrlAdaptor,
+    crossDomain: true
+  });
+  public fields: Object = {text: 'CategoryName', value: 'Id'};
+
+  public query: Query = new Query().select(['CategoryName', 'Id']);
 
   constructor(private service: EmployeesService) {
     this.data = service;
@@ -55,17 +66,31 @@ export class EmployeesComponent implements OnInit {
       'Copy', 'Edit', 'Delete', 'Save', 'Cancel',
       'PdfExport', 'ExcelExport', 'CsvExport', 'FirstPage', 'PrevPage',
       'LastPage', 'NextPage'];
-    this.editing = {allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Dialog', newRowPosition: 'Bottom'};
+    this.editing = {
+      allowEditing: true,
+      allowAdding: true,
+      allowDeleting: true,
+      mode: 'Dialog',
+      newRowPosition: 'Bottom'
+    };
     this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
   }
 
   actionBegin(args: SaveEventArgs) {
+    let categoryList: any = [];
+    let cat = [];
     if ((args.requestType === 'beginEdit' || args.requestType === 'add')) {
       this.rowObj = Object.assign({}, args.rowData);
     }
     if (args.requestType === 'save') {
       args.data['Color'] = this.rowObj['Color'];
       args.data['Active'] = this.rowObj['Active'];
+      for (let k of this.rowObj.CategoryList) {
+        cat.push({Id: k})
+      }
+      categoryList = [...cat];
+      args.data['CategoryList'] = categoryList;
+      console.log(categoryList)
     }
   }
 

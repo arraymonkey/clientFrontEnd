@@ -37,7 +37,6 @@ export class ServicesComponent implements OnInit {
   }
 
   public multiSelectData: DataManager = new DataManager({
-    // Here, use the wrong url to display the action failure template
     url: environment.serverUrl + 'categories',
     adaptor: new UrlAdaptor,
     crossDomain: true

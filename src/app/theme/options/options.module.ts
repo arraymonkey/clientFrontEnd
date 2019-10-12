@@ -6,9 +6,9 @@ import { ServicesComponent } from './services/services.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CalendarComponent} from '../scheduler/calendar/calendar.component';
 import {GridAllModule} from '@syncfusion/ej2-angular-grids';
-import {ReactiveFormsModule} from '@angular/forms';
-import {ColorPickerAllModule, MaskedTextBoxAllModule} from '@syncfusion/ej2-angular-inputs';
-import {SwitchAllModule} from '@syncfusion/ej2-angular-buttons';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ColorPickerAllModule, MaskedTextBoxAllModule, NumericTextBoxModule} from '@syncfusion/ej2-angular-inputs';
+import {ButtonModule, CheckBoxModule, SwitchAllModule} from '@syncfusion/ej2-angular-buttons';
 import {DropDownListAllModule, MultiSelectAllModule} from '@syncfusion/ej2-angular-dropdowns';
 import { UsersComponent } from './users/users.component';
 const routes: Routes = [
@@ -59,7 +59,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [EmployeesComponent, CategoriesComponent, ServicesComponent, UsersComponent],
   imports: [
-    CommonModule, RouterModule.forChild(routes), GridAllModule, ReactiveFormsModule, ColorPickerAllModule, SwitchAllModule, MaskedTextBoxAllModule, MultiSelectAllModule, DropDownListAllModule
+
+    CommonModule, RouterModule.forChild(routes), GridAllModule, ReactiveFormsModule, FormsModule,ColorPickerAllModule, SwitchAllModule, ButtonModule, CheckBoxModule, NumericTextBoxModule,MaskedTextBoxAllModule, MultiSelectAllModule, DropDownListAllModule
   ]
 })
 export class OptionsModule { }
