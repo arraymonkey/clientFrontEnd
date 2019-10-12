@@ -33,22 +33,21 @@ export class EmployeesComponent implements OnInit {
   @ViewChild('grid', {static: true})
   public grid: GridComponent;
   rowObj: any;
-  // public multiSelectData: DataManager = new DataManager({
-  //   url: environment.serverUrl + 'categories',
-  //   adaptor: new UrlAdaptor,
-  //   crossDomain: true
-  // });
-  public multiSelectData: Observable<any>;
+  public multiSelectData: DataManager = new DataManager({
+    url: environment.serverUrl + 'categories',
+    adaptor: new UrlAdaptor,
+    crossDomain: true
+  });
 
-  public fields: Object = {value: 'Id'};
+  public fields: Object = {text: 'CategoryName',value: 'Id'};
 
-  public query: Query = new Query().select(['CategoryName', 'Id']);
 
   constructor(private service: EmployeesService, private catService: CategoriesService) {
     this.data = service;
 
 
   }
+
 
 
   public dataStateChange(state: DataStateChangeEventArgs): void {
@@ -83,10 +82,10 @@ export class EmployeesComponent implements OnInit {
       this.consoleLot(data)
     })
 
-    this.multiSelectData = this.catService.getAllData().pipe(map((res: { [key: string]: any }) => {
-      console.log(res.value)
-      return res.value
-    }))
+    // this.multiSelectData = this.catService.getAllData().pipe(map((res: { [key: string]: any }) => {
+    //   console.log(res.value)
+    //   return res.value
+    // }))
 
   }
 
@@ -115,7 +114,7 @@ export class EmployeesComponent implements OnInit {
     }
 
   }
-
+  customiseCell(){}
   consoleLot(data) {
     console.log(data);
   }

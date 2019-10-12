@@ -12,21 +12,15 @@
       <e-column field='EmployeeName' headerText='Employee Name'></e-column>
       <e-column field='Phone' format="{type:'string',format: '(###) ###-####'}" headerText='Phone'></e-column>
       <e-column field='Email' headerText='Email'></e-column>
-      <e-column field='CategoryList' headerText='List of Services Category'>
+      <e-column field="CategoryList" headerText='List of Services Category'>
         <ng-template #editTemplate let-data>
-          <ejs-multiselect id='dropdownlist-template' [dataSource]='multiSelectData' [(value)]="rowObj.CategoryList"
+          <ejs-multiselect id='dropdownlist-template' [dataSource]="multiSelectData" [(value)]="rowObj.CategoryList"
+                           [(value)]=data.CategoryList
                            [fields]='fields'
-                           [itemTemplate]='itemTemplate'
                            [mode]="'Box'"
-                           [valueTemplate]="valueTemplate"
                            [placeholder]="'Select Categories'">
             <ng-template #itemTemplate let-data>
               <span class='Category' style="text-align: center">{{data.CategoryName}}</span>
-            </ng-template>
-            <ng-template #valueTemplate let-data>
-              <div>
-                <div class="nameTemp"> {{data.CategoryName}}</div>
-              </div>
             </ng-template>
           </ejs-multiselect>
         </ng-template>

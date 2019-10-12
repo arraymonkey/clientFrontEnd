@@ -69,7 +69,7 @@ export class TasksComponent implements OnInit {
 
   }
 
-
+formatOption= {type: 'date', format: 'MM/dd/yyyy hh:mm a'};
   public dataStateChange(state: DataStateChangeEventArgs): void {
     this.service.executeFromTo(state);
   }

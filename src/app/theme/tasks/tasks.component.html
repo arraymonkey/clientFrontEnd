@@ -15,7 +15,7 @@
                   (dataSourceChanged)="dataSourceChanged($event)"
                   [contextMenuItems]="contextMenuItems" [editSettings]='editing' width="100%">
           <e-columns>
-            <e-column field='CheckInTime' headerText='Check In Time' width='220' textAlign="Left"></e-column>
+            <e-column field='CheckInTime' type="date" [format]="formatOption" headerText='Check In Time' width='220' textAlign="Left"></e-column>
             <e-column field='Client' headerText='Client Name'></e-column>
             <e-column field='SalonServices' headerText='Services'></e-column>
             <e-column field="Status" headerText="Status"></e-column>
