@@ -40,8 +40,7 @@ export class CalendarComponent implements OnInit {
   public resourceDataManager: DataManager = new DataManager({
     url: environment.serverUrl + 'employees',
     adaptor: new UrlAdaptor,
-    crossDomain: true,
-    headers: [{'Content-Type': 'application/json'}]
+    crossDomain: true
   });
   public workHours: WorkHoursModel = {highlight: false};
   public startHour = '09:00';

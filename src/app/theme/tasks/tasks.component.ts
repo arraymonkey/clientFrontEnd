@@ -38,6 +38,7 @@ export class TasksComponent implements OnInit {
   public contextMenuItems: ContextMenuItem[];
   public editing: EditSettingsModel;
   public data: Observable<DataStateChangeEventArgs>;
+  public emp: Observable<DataStateChangeEventArgs>;
   public toolbar: string[];
   @ViewChild('grid', {static: true})
   public grid: GridComponent;

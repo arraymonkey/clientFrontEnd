@@ -31,7 +31,7 @@
       </div>
       <div class="col">
         <div class='e-mastertext'>Employee Daily List</div>
-        <ejs-grid id='DestGrid' [dataSource]='data |async' id="destcomp" [allowPaging]='true' [allowExcelExport]='true'
+        <ejs-grid id='DestGrid' [dataSource]='emp |async' id="destcomp" [allowPaging]='true' [allowExcelExport]='true'
                   [allowPdfExport]='true'
                   [allowSorting]='true' (actionBegin)="actionBegin($event)"
                   (actionComplete)="actionComplete($event)"
