@@ -17,7 +17,6 @@
       <e-column field='CategoryName' headerText='Category'
                 textAlign='Center'>
         <ng-template #editTemplate let-data>
-          <div class="row" style="margin-left: 2rem">
             <ejs-dropdownlist id='dropdownlist-template' [dataSource]='multiSelectData' [(value)]="rowObj.CategoryName"
                               [fields]='fields'
                               [itemTemplate]='itemTemplate'>
@@ -26,7 +25,7 @@
                 <span class='Category' style="text-align: center">{{data.CategoryName}}</span>
               </ng-template>
             </ejs-dropdownlist>
-          </div>
+
         </ng-template>
       </e-column>
       <e-column field='Active' headerText='Status' width='150' [editTemplate]="editActive">

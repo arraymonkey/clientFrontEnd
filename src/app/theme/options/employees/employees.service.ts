@@ -6,15 +6,17 @@ import {environment} from '../../../../environments/environment';
 import {map} from 'rxjs/operators';
 import {AbstractRestService} from '../../../shared/AbstractRestService';
 import {Environment} from '@angular/compiler-cli/src/ngtsc/typecheck/src/environment';
+import {Category} from "../categories/categories.service";
+
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeesService extends AbstractRestService<Employee>  {
-  constructor(http:HttpClient) {
+export class EmployeesService extends AbstractRestService<Employee> {
+  constructor(http: HttpClient) {
     super(http, environment.serverUrl + 'employees');
   }
 }
@@ -26,4 +28,11 @@ export interface Employee {
   Email: string;
   Color: string;
   Active: boolean;
+  CategoryList: Category[];
+  OffDays?: Days
+  Points: number
+}
+
+export enum Days {
+  SUN, MON, TUE, WEND, THURS, FRI, SAT
 }

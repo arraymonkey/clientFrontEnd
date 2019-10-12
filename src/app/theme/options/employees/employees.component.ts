@@ -13,7 +13,8 @@ import {EmployeesService} from './employees.service';
 import {ChangeEventArgs} from '@syncfusion/ej2-buttons';
 import {DataManager, Query, UrlAdaptor} from "@syncfusion/ej2-data";
 import {environment} from "../../../../environments/environment";
-import {Category} from "../categories/categories.service";
+import {CategoriesService} from "../categories/categories.service";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-employees',
@@ -32,17 +33,21 @@ export class EmployeesComponent implements OnInit {
   @ViewChild('grid', {static: true})
   public grid: GridComponent;
   rowObj: any;
-  public multiSelectData: DataManager = new DataManager({
-    url: environment.serverUrl + 'categories',
-    adaptor: new UrlAdaptor,
-    crossDomain: true
-  });
-  public fields: Object = {text: 'CategoryName', value: 'Id'};
+  // public multiSelectData: DataManager = new DataManager({
+  //   url: environment.serverUrl + 'categories',
+  //   adaptor: new UrlAdaptor,
+  //   crossDomain: true
+  // });
+  public multiSelectData: Observable<any>;
+
+  public fields: Object = {value: 'Id'};
 
   public query: Query = new Query().select(['CategoryName', 'Id']);
 
-  constructor(private service: EmployeesService) {
+  constructor(private service: EmployeesService, private catService: CategoriesService) {
     this.data = service;
+
+
   }
 
 
@@ -74,6 +79,15 @@ export class EmployeesComponent implements OnInit {
       newRowPosition: 'Bottom'
     };
     this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
+    this.data.subscribe(data => {
+      this.consoleLot(data)
+    })
+
+    this.multiSelectData = this.catService.getAllData().pipe(map((res: { [key: string]: any }) => {
+      console.log(res.value)
+      return res.value
+    }))
+
   }
 
   actionBegin(args: SaveEventArgs) {
@@ -100,6 +114,10 @@ export class EmployeesComponent implements OnInit {
       dialog.header = args.requestType === 'beginEdit' ? 'Record of ' + args.rowData['EmployeeName'] : 'New Employee';
     }
 
+  }
+
+  consoleLot(data) {
+    console.log(data);
   }
 
   changeEvent(args: ChangeEventArgs) {
