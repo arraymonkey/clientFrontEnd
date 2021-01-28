@@ -64,7 +64,7 @@
     "css-animator": "^2.3.0",
     "cw-rabbitmq": "^3.2.1",
     "d3": "^5.12.0",
-    "electron": "^6.0.11",
+    "electron": "^9.4.0",
     "famfamfam-flags": "^1.0.0",
     "font-awesome-scss": "^1.0.0",
     "fs": "0.0.1-security",
